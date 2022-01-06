@@ -28,7 +28,7 @@ namespace ItalianSyllabary
             };
         }
 
-        public Task<string[]> GetSyllables(string word)
+        public async Task<string[]> GetSyllables(string word)
         {
             var sillabarium = GetSyllabariumOrdered();
 
@@ -36,17 +36,17 @@ namespace ItalianSyllabary
 
             try
             {
-                return syllabary.GetSyllables(word);
+                return await syllabary.GetSyllables(word);
             }
-            catch (CantGetSyllablesException)
+            catch (CantGetSyllablesException e)
             {
                 syllabary = sillabarium.Where(s => s is ManualSillabary).First();
-                return syllabary.GetSyllables(word);
+                return await syllabary.GetSyllables(word);
             }
         }
 
 
-        public Task<int> GetSyllablesCount(string word)
+        public async Task<int> GetSyllablesCount(string word)
         {
             var sillabarium = GetSyllabariumOrdered();
 
@@ -54,12 +54,12 @@ namespace ItalianSyllabary
 
             try
             {
-                return syllabary.GetSyllablesCount(word);
+                return await syllabary.GetSyllablesCount(word);
             }
             catch (CantGetSyllablesException)
             {
                 syllabary = sillabarium.Where(s => s is ManualSillabary).First();
-                return syllabary.GetSyllablesCount(word);
+                return await syllabary.GetSyllablesCount(word);
             }
         }
 

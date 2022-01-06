@@ -9,6 +9,9 @@
         internal static readonly char[] NotAllowedLetters = { 'ă', 'ĭ' };
 
 
+        internal const string DiphthongsRegexp = "(?i)([aeiou]([i]|[u])|([i]|[u])[aeiou]){1}(?-i)";
+
+
         #region Wikitionary
 
 

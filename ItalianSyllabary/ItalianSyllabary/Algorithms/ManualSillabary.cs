@@ -1,4 +1,5 @@
 ﻿using ItalianSyllabary.Helpers;
+using ItalianSyllabary.Support;
 using System.Text.RegularExpressions;
 
 namespace ItalianSyllabary.Algorithms
@@ -19,12 +20,14 @@ namespace ItalianSyllabary.Algorithms
         protected const string CONSONANT_GROUP_L_R_REGEXP = "([BCDFGPTV] |[LR])+([AEIOU])/i";
         protected readonly string[] NOT_ALLOWED_AT_START = new string[] { "CN", "LM", "RC", "BD", "MB", "MN", "LD", "NG", "ND", "TM" };
         protected readonly Regex _regexLRGroup;
+        protected readonly IEnricher Enricher;
 
         private const StringComparison _stringComparisonType = StringComparison.OrdinalIgnoreCase;
 
         public ManualSillabary()
         {
             _regexLRGroup = new(CONSONANT_GROUP_L_R_REGEXP);
+            Enricher = new JsonFileEnricher();
         }
 
         /**
@@ -40,6 +43,9 @@ namespace ItalianSyllabary.Algorithms
          * */
         public Task<string[]> GetSyllables(string word)
         {
+            // Enrich word
+            string enrichedWord = Enricher.EnrichWord(word).Result;
+
             // First implementation, will put all the logic apart in a second moment
             List<string> syllables = new List<string> { };
             List<int> ignoreIndexes = new List<int>();
@@ -53,6 +59,21 @@ namespace ItalianSyllabary.Algorithms
                 }
 
                 char nextChar = splitted_word.ElementAtOrDefault(currentCharIdx + 1);
+                char prevChar = splitted_word.ElementAtOrDefault(currentCharIdx - 1);
+
+                char prevEnrichedChar = enrichedWord.ElementAtOrDefault(currentCharIdx - 1);
+                char nextEnrichedChar = enrichedWord.ElementAtOrDefault(currentCharIdx + 1);
+                char currentEnrichedChar = enrichedWord.ElementAtOrDefault(currentCharIdx);
+
+                // dittongo controllo a posteriori (mario)
+                string prevAndCur = $"{prevEnrichedChar}{currentEnrichedChar}".ToUpper();
+                if (prevAndCur.HasDiphthong())
+                {
+                    syllables = syllables.Select((str, idx) => idx == syllables.Count() - 1 ? $"{str}{currentChar}" : str)
+                        .ToList();
+                    ignoreIndexes.Add(currentCharIdx);
+                    continue;
+                }
 
                 // Empiric rule
                 if (nextChar.IsTerminationChar())
@@ -71,6 +92,20 @@ namespace ItalianSyllabary.Algorithms
                     ignoreIndexes.Add(currentCharIdx);
                     continue; // will break immediately
                 }
+
+                // dittongo controllo a priori (auguri)
+                string curAndNext = $"{currentEnrichedChar}{nextEnrichedChar}".ToUpper();
+                if (curAndNext.HasDiphthong())
+                {
+                    syllables.Add(
+                        curAndNext
+                    );
+                    ignoreIndexes.AddRange(Enumerable.Range(currentCharIdx, curAndNext.Length));
+                    continue;
+                }
+
+                // Clean accents
+                
 
                 // 1.Una vocale iniziale seguita da una sola consonante costituisce una sillaba: e-la-bo-ra-re; a-lian-te; u-mi-do;i-do-lo; o-do-re, u-no.
                 if (VOWELS.Contains(currentChar, _stringComparisonType)
@@ -140,7 +175,7 @@ namespace ItalianSyllabary.Algorithms
                 }
 
                 // 5.Si dividono i gruppi costituiti da due consonanti uguali (tt, dd, ecc. e anche cq) e i gruppi consonantici che non sono ammessi ad inizio di parola (del tipo cn, lm, rc, bd, mb, mn, ld, ng, nd, tm): tet-to; ac-qua; ri-sciac-quo; cal-ma; ri-cer-ca; rab-do-man-te; im-bu-to; cal-do; in-ge-gne-re; quan-do; am-ni-sti-a; Gian-mar-co; tec-ni-co, a-rit-me-ti-ca.
-                string curAndNext = $"{currentChar}{nextChar}".ToUpper();
+                // string curAndNext = $"{currentChar}{nextChar}".ToUpper();
                 if ((CONSONANTS.Contains(currentChar, _stringComparisonType)
                         && nextChar.Equals(currentChar))
                     || CQ_GROUP.Contains(curAndNext, _stringComparisonType)

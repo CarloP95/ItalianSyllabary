@@ -4,15 +4,23 @@
     {
 
         /// <summary>
-        /// Check if the string is a diphthong
+        /// Check if the string is a diphthong.
+        /// It consider accents, see example
         /// </summary>
         /// <param name="chars"></param>
-        /// <returns></returns>
-        public static bool IsDiphthong(this string chars)
+        /// <returns>true if the string has diphthongs, false otherwise</returns>
+        /// <example>
+        /// "maria".HasDiphtong is true
+        /// "marìa".HasDiphtong is false
+        /// </example>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static bool HasDiphthong(this string chars)
         {
             ArgumentNullException.ThrowIfNull(chars, nameof(chars));
 
-            return false;
+            var r = new System.Text.RegularExpressions.Regex(Constants.Common.DiphthongsRegexp);
+
+            return r.Match(chars).Success;
         }
 
 
@@ -20,7 +28,7 @@
         /// Clean accents from string
         /// </summary>
         /// <param name="str"></param>
-        /// <returns></returns>
+        /// <returns>The cleaned string</returns>
         public static string CleanAccents(this string str)
         {
             return str
