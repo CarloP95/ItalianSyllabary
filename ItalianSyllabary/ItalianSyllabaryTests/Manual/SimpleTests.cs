@@ -1,5 +1,6 @@
 using ItalianSyllabaryTests.Helpers;
 using NUnit.Framework;
+using System;
 
 namespace ItalianSyllabaryTests.Manual
 {
@@ -21,6 +22,9 @@ namespace ItalianSyllabaryTests.Manual
         [Test(Description = "Test with no particular cases")]
         public void SimpleTest()
         {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
             const string word = "casa";
             string[] expected = { "ca", "sa" };
 
@@ -30,6 +34,9 @@ namespace ItalianSyllabaryTests.Manual
         [Test(Description = "Test with accents")]
         public void SimpleAccentTest()
         {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
             const string word = "càsa";
             string[] expected = { "ca", "sa" };
 
@@ -39,6 +46,9 @@ namespace ItalianSyllabaryTests.Manual
         [Test(Description = "Test with long word")]
         public void LongWordTest()
         {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
             const string word = "casanova";
             string[] expected = { "ca", "sa", "no", "va" };
 
@@ -48,6 +58,9 @@ namespace ItalianSyllabaryTests.Manual
         [Test(Description = "Test with lonely vocal")]
         public void LonelyVocalTest()
         {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
             const string word = "amore";
             string[] expected = { "a", "mo", "re" };
 
@@ -57,6 +70,9 @@ namespace ItalianSyllabaryTests.Manual
         [Test(Description = "Test with S group")]
         public void SimpleSGroupTest()
         {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
             const string word = "teschio";
             string[] expected = { "te", "schio" };
 
@@ -67,6 +83,9 @@ namespace ItalianSyllabaryTests.Manual
         [Test(Description = "Test with double consonant group")]
         public void SimpleDoubleConsonantGroupTest()
         {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
             const string word = "tetto";
             string[] expected = { "tet", "to" };
 
@@ -76,6 +95,9 @@ namespace ItalianSyllabaryTests.Manual
         [Test(Description = "Test with triple consonant group")]
         public void SimpleTripleConsonantGroupTest()
         {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
             const string word = "ventricolo";
             string[] expected = { "ven", "tri", "co", "lo" };
 

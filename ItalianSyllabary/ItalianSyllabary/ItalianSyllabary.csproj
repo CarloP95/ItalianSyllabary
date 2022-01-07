@@ -4,6 +4,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>Carlo Francesco Pellegrino</Authors>
+    <Copyright>Copyright © 2022 Carlo Francesco Pellegrino</Copyright>
+    <Description>An Italian Syllabary to split italian words in syllables</Description>
+    <PackageProjectUrl>https://github.com/CarloP95/ItalianSyllabary</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/CarloP95/ItalianSyllabary</RepositoryUrl>
+    <PackageTags>italian, syllables, dictionary</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +19,13 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\enrich.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
