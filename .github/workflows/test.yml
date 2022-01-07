@@ -17,6 +17,16 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+    - name: Simple cat to observe letter with accent in incriminated file
+      run: cat ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs
+    - name: Simple cat to observe letter with accent normally
+      run: cat ./ItalianSyllabary/ItalianSyllabary/Helpers/StringHelpers.cs
+    - name: Simple check for encoding of incriminated file
+      run: file -bi ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs
+    - name: Simple check for encoding of incriminated file
+      run: file -bi ./ItalianSyllabary/ItalianSyllabary/Helpers/StringHelpers.cs
+    - name: Change encoding of incriminated files
+      run: iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs && iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Online/SimpleTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Online/SimpleTests.cs
     - name: Restore dependencies
       run: dotnet restore ./ItalianSyllabary/ItalianSyllabary.sln
     - name: Test
