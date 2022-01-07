@@ -25,6 +25,25 @@
 
 
         /// <summary>
+        /// Check if str has accents
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns>true if has accents, otherwise false</returns>
+        public static bool HasAccents(this string str)
+        {
+            return str.Contains('à')
+                || str.Contains('á')
+                || str.Contains('è')
+                || str.Contains('é')
+                || str.Contains('ì')
+                || str.Contains('í')
+                || str.Contains('ò')
+                || str.Contains('ó')
+                || str.Contains('ù')
+                || str.Contains('ú');
+        }
+
+        /// <summary>
         /// Clean accents from string
         /// </summary>
         /// <param name="str"></param>

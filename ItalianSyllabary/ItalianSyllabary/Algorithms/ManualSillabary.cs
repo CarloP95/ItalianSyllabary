@@ -44,7 +44,8 @@ namespace ItalianSyllabary.Algorithms
         public Task<string[]> GetSyllables(string word)
         {
             // Enrich word
-            string enrichedWord = Enricher.EnrichWord(word).Result;
+            string enrichedWord = word.HasAccents() ? word : Enricher.EnrichWord(word).Result;
+            word = word.HasAccents() ? word.CleanAccents() : word;
 
             // First implementation, will put all the logic apart in a second moment
             List<string> syllables = new List<string> { };

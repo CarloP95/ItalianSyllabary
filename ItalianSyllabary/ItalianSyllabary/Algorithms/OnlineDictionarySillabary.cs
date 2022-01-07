@@ -27,6 +27,7 @@ namespace ItalianSyllabary.Algorithms
         /// <returns></returns>
         public async Task<string[]> GetSyllables(string word)
         {
+            word = word.CleanAccents();
             string requestUri = BuildRequestUri(word);
 
             string content = string.Empty;
@@ -45,9 +46,9 @@ namespace ItalianSyllabary.Algorithms
             return GetSyllablesFromContent(word, content);
         }
 
-        public Task<int> GetSyllablesCount(string word)
+        public async Task<int> GetSyllablesCount(string word)
         {
-            throw new NotImplementedException();
+            return (await GetSyllables(word)).Count();
         }
 
 

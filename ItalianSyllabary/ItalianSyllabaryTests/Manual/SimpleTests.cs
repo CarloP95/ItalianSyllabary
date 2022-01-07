@@ -27,6 +27,15 @@ namespace ItalianSyllabaryTests.Manual
             TestHelper.SimpleTestProcedure(_syllabary, word, expected, @$"Got error in splitting word ""{word}"". This library is really messed up...");
         }
 
+        [Test(Description = "Test with accents")]
+        public void SimpleAccentTest()
+        {
+            const string word = "càsa";
+            string[] expected = { "ca", "sa" };
+
+            TestHelper.SimpleTestProcedure(_syllabary, word, expected, @$"Got error in splitting word ""{word}"". This library is really messed up...");
+        }
+
         [Test(Description = "Test with long word")]
         public void LongWordTest()
         {
