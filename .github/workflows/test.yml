@@ -11,11 +11,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      SUPER_SECRET: ${{ secrets.SuperSecret }}
-    run: |
-      example-command "$SUPER_SECRET"
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
