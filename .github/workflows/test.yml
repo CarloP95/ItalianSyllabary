@@ -20,7 +20,9 @@ jobs:
     - name: Check for encoding of incriminated file
       run: file -bi ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs
     - name: Change encoding of incriminated files
-      run: iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs && iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Online/SimpleTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Online/SimpleTests.cs
+      run: |
+        iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs && iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Online/SimpleTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Online/SimpleTests.cs && 
+        iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Manual/MassiveTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Manual/MassiveTests.cs && iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Online/MassiveTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Online/MassiveTests.cs
     - name: Restore dependencies
       run: dotnet restore ./ItalianSyllabary/ItalianSyllabary.sln
     - name: Test
