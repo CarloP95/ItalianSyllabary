@@ -19,9 +19,9 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
-    - name: Check for encoding of incriminated file
+    - name: Check for encoding of scrambled file
       run: file -bi ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs
-    - name: Change encoding of incriminated files
+    - name: Change encoding of scrambled files
       run: |
         iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Manual/SimpleTests.cs && iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Online/SimpleTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Online/SimpleTests.cs && 
         iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Manual/MassiveTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Manual/MassiveTests.cs && iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Online/MassiveTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Online/MassiveTests.cs
@@ -30,9 +30,9 @@ jobs:
     - name: Test
       run: dotnet test --verbosity normal ./ItalianSyllabary/ItalianSyllabary.sln
     - name: Create package
-      run: dotnet pack -p:PackageVersion=$PKG_VERSION --configuration Release -p ./ItalianSyllabary/ItalianSyllabary/ItalianSyllabary.csproj
+      run: dotnet pack -p:PackageVersion=${PKG_VERSION} --configuration Release ./ItalianSyllabary/ItalianSyllabary/ItalianSyllabary.csproj
     - name: Publish package
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-      run: dotnet nuget push --api-key $NUGET_API_KEY /home/runner/work/ItalianSyllabary/ItalianSyllabary/ItalianSyllabary/ItalianSyllabary/bin/Release/ItalianSyllabary.$PKG_VERSION.nupkg --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push --api-key $NUGET_API_KEY /home/runner/work/ItalianSyllabary/ItalianSyllabary/ItalianSyllabary/ItalianSyllabary/bin/Release/ItalianSyllabary.${PKG_VERSION}.nupkg --source https://api.nuget.org/v3/index.json
       
