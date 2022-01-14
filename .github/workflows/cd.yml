@@ -1,4 +1,4 @@
-name: Test Library
+name: Continuous Delivery
 
 on:
   push:
@@ -7,11 +7,11 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  CD:
 
     runs-on: ubuntu-latest
     env:
-      PKG_VERSION: '1.0.1'
+      PKG_VERSION: '1.0.3'
 
     steps:
     - uses: actions/checkout@v2
@@ -27,8 +27,10 @@ jobs:
         iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Manual/MassiveTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Manual/MassiveTests.cs && iconv -f iso-8859-1 -t utf-8 ./ItalianSyllabary/ItalianSyllabaryTests/Online/MassiveTests.cs > ./ItalianSyllabary/ItalianSyllabaryTests/Online/MassiveTests.cs
     - name: Restore dependencies
       run: dotnet restore ./ItalianSyllabary/ItalianSyllabary.sln
+    - name: Build
+      run: dotnet build --no-restore ./ItalianSyllabary/ItalianSyllabary.sln
     - name: Test
-      run: dotnet test --verbosity normal ./ItalianSyllabary/ItalianSyllabary.sln
+      run: dotnet test --no-build --verbosity normal ./ItalianSyllabary/ItalianSyllabary.sln
     - name: Create package
       run: dotnet pack -p:PackageVersion=${PKG_VERSION} --configuration Release ./ItalianSyllabary/ItalianSyllabary/ItalianSyllabary.csproj
     - name: Publish package

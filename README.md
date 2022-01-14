@@ -14,12 +14,16 @@ You can find this .json file into the resources directory.
 ### Installation
 Add ItalianSyllabary in the latest version of your .NET 6.0 application from the voice `"Manage NuGet packages...` of the project or simply use the following command from your CLI
 ```csharp
-dotnet add package ItalianSyllabary --version 1.0.0
+dotnet add package ItalianSyllabary --version 1.0.3
 ```
 ### Usage
 ```csharp
+// Manual version with known issues
 var syllabary = new ItalianSyllabary();
 string[] syllables = syllabary.GetSyllables("casa"); // { "ca", "sa" }
+// Online version, will fallback to manual if word is not found or is not italian
+var syllabary = new ItalianSyllabary(preferOnline: true);
+string[] syllables = syllabary.GetSyllables("manuale"); // { "ca", "sa" }
 ```
 
 # Contribute
