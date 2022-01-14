@@ -1,7 +1,7 @@
 ﻿namespace ItalianSyllabary.Exceptions
 {
     /// <summary>
-    /// Custom exception to be thrown when 
+    /// Custom exception that is thrown when 
     /// syllables can't be obtained from library
     /// </summary>
     internal class CantGetSyllablesException: Exception

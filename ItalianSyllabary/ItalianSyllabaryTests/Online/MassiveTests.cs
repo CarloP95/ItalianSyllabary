@@ -14,8 +14,7 @@ namespace ItalianSyllabaryTests.Online
         [SetUp]
         public void Setup()
         {
-            _syllabary = new ItalianSyllabary.ItalianSyllabary();
-            ItalianSyllabary.Support.ItalianSyllabaryOptions.UseOnlineDictionary = true;
+            _syllabary = new ItalianSyllabary.ItalianSyllabary(true);
         }
 
     }

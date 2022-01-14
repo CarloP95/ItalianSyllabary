@@ -31,6 +31,18 @@ namespace ItalianSyllabaryTests.Manual
             TestHelper.SimpleTestProcedure(_syllabary, word, expected, @$"Got error in splitting word ""{word}"". This library is really messed up...");
         }
 
+        [Test(Description = "Test if the library should ignore upper case")]
+        public void ShouldIgnoreUpperCase()
+        {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
+            const string word = "CASA";
+            string[] expected = { "CA", "SA" };
+
+            TestHelper.SimpleTestProcedure(_syllabary, word, expected, @$"Got error in splitting word ""{word}"". This library is really messed up...");
+        }
+
         [Test(Description = "Test with accents")]
         public void SimpleAccentTest()
         {
@@ -38,7 +50,7 @@ namespace ItalianSyllabaryTests.Manual
             ArgumentNullException.ThrowIfNull(_syllabary);
 
             const string word = "càsa";
-            string[] expected = { "ca", "sa" };
+            string[] expected = { "cà", "sa" };
 
             TestHelper.SimpleTestProcedure(_syllabary, word, expected, @$"Got error in splitting word ""{word}"". This library is really messed up...");
         }

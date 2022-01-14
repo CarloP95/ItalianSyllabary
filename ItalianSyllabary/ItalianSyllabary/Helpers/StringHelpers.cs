@@ -3,6 +3,9 @@
     internal static class StringHelpers
     {
 
+        private const string Space = " ";
+
+
         /// <summary>
         /// Check if the string is a diphthong.
         /// It consider accents, see example
@@ -22,6 +25,24 @@
 
             return r.Match(chars).Success;
         }
+
+
+        /// <summary>
+        /// Check if the word has space in it
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public static bool HasSpaces(this string word) => word.Contains(Space);
+
+
+        /// <summary>
+        /// Check if the word has more words in it
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public static bool HasMoreThanAWord(this string word) =>
+            word.HasSpaces()
+            && word.Split(Space, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Length > 1;
 
 
         /// <summary>

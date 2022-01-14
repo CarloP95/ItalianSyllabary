@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace ItalianSyllabaryTests.Helpers
 {
@@ -17,6 +18,7 @@ namespace ItalianSyllabaryTests.Helpers
             if (_syllabary is null)
             {
                 Assert.Fail("Not instantiated");
+                ArgumentNullException.ThrowIfNull(_syllabary);
             }
 
             var result = _syllabary.GetSyllables(word)

@@ -1,5 +1,5 @@
 # ItalianSyllabary
-.NET library to get italian words splitted in syllables. There are some known limitations, but you can even try to overcome those with the online vocabulary that Wikitionary lends us.
+A zero dependencies .NET library to get italian words splitted in syllables. There are some known limitations, but you can even try to overcome those with the online vocabulary that Wikitionary lends us.
 
 # Known issues
 Syllables division in italian words relies on diphthongs, accents and so on.
@@ -8,6 +8,19 @@ However some words (e.g. Maria, Mario) if submitted without accents can't be spl
 
 For this reason you will find the Enricher that allows you to add words with accents to suggest to the library how to split correctly.
 You can find this .json file into the resources directory.
+
+# Quickstart
+
+### Installation
+Add ItalianSyllabary in the latest version of your .NET 6.0 application from the voice `"Manage NuGet packages...` of the project or simply use the following command from your CLI
+```csharp
+dotnet add package ItalianSyllabary --version 1.0.0
+```
+### Usage
+```csharp
+var syllabary = new ItalianSyllabary();
+string[] syllables = syllabary.GetSyllables("casa"); // { "ca", "sa" }
+```
 
 # Contribute
 You are free to submit pull requests. If you want, you can add words to the enrich.json file. 

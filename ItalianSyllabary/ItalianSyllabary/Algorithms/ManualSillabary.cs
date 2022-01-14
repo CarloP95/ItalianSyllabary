@@ -7,7 +7,8 @@ namespace ItalianSyllabary.Algorithms
     /// <summary>
     /// Execute the sillabation manually.
     /// Could lead to imprecise results due to the 
-    /// accent rules in italian
+    /// accent rules in italian.
+    /// If accents are given to the word, the result will be precise
     /// </summary>
     internal class ManualSillabary : ISyllabary
     {
@@ -18,7 +19,7 @@ namespace ItalianSyllabary.Algorithms
         protected const string IO_GROUP = "IO";
         protected const string CQ_GROUP = "CQ";
         protected const string CONSONANT_GROUP_L_R_REGEXP = "([BCDFGPTV] |[LR])+([AEIOU])/i";
-        protected readonly string[] NOT_ALLOWED_AT_START = new string[] { "CN", "LM", "RC", "BD", "MB", "MN", "LD", "NG", "ND", "TM" };
+        protected readonly string[] NOT_ALLOWED_AT_START = new string[] { "CN", "LM", "RC", "BD", "MB", "MN", "LD", "NG", "ND", "NT", "NM", "TM" };
         protected readonly Regex _regexLRGroup;
         protected readonly IEnricher Enricher;
 
@@ -44,7 +45,8 @@ namespace ItalianSyllabary.Algorithms
         public Task<string[]> GetSyllables(string word)
         {
             // Enrich word
-            string enrichedWord = word.HasAccents() ? word : Enricher.EnrichWord(word).Result;
+            string originalWord = word,
+                enrichedWord = word.HasAccents() ? word : Enricher.EnrichWord(word).Result;
             word = word.HasAccents() ? word.CleanAccents() : word;
 
             // First implementation, will put all the logic apart in a second moment
@@ -106,7 +108,7 @@ namespace ItalianSyllabary.Algorithms
                 }
 
                 // Clean accents
-                
+
 
                 // 1.Una vocale iniziale seguita da una sola consonante costituisce una sillaba: e-la-bo-ra-re; a-lian-te; u-mi-do;i-do-lo; o-do-re, u-no.
                 if (VOWELS.Contains(currentChar, _stringComparisonType)
@@ -124,8 +126,8 @@ namespace ItalianSyllabary.Algorithms
                     && VOWELS.Contains(nextChar, _stringComparisonType))
 
                 {
-                    int lastIdxIgnored = ignoreIndexes.Count() > 0 ? ignoreIndexes.Max() : -1;
-                    if (currentCharIdx > 1
+                    int lastIdxIgnored = ignoreIndexes.Any() ? ignoreIndexes.Max() : -1;
+                    if (currentCharIdx > 0
                         && currentCharIdx != lastIdxIgnored)
                     {
                         syllables.Add(
@@ -202,7 +204,19 @@ namespace ItalianSyllabary.Algorithms
 
             }
 
-            return Task.FromResult(syllables.ToArray());
+            // Clean
+            IEnumerable<int> lenghts = syllables.Select(s => s.Length);
+
+            string[] originalSyllables = new string[] { };
+            foreach((int l, int idx) in lenghts.Select((l, idx) => (l,idx)))
+            {
+                int reduced = lenghts.Select((l, innerIdx) => innerIdx < idx ? l : 0)
+                    .Sum();
+                originalSyllables = originalSyllables.Append(originalWord.Substring(idx == 0 ? 0 : reduced, l))
+                    .ToArray();
+            }
+
+            return Task.FromResult(originalSyllables.ToArray());
         }
 
 

@@ -16,8 +16,7 @@ namespace ItalianSyllabaryTests.Online
         [SetUp]
         public void Setup()
         {
-            _syllabary = new ItalianSyllabary.ItalianSyllabary();
-            ItalianSyllabary.Support.ItalianSyllabaryOptions.UseOnlineDictionary = true;
+            _syllabary = new ItalianSyllabary.ItalianSyllabary(true);
         }
 
         [Test(Description = "Test with no particular cases")]
@@ -28,6 +27,18 @@ namespace ItalianSyllabaryTests.Online
 
             const string word = "casa";
             string[] expected = { "ca", "sa" };
+
+            TestHelper.SimpleTestProcedure(_syllabary, word, expected, @$"Got error in splitting word ""{word}"". This library is really messed up...");
+        }
+
+        [Test(Description = "Test if the library should ignore upper case")]
+        public void ShouldIgnoreUpperCase()
+        {
+            Assert.IsNotNull(_syllabary);
+            ArgumentNullException.ThrowIfNull(_syllabary);
+
+            const string word = "CASA";
+            string[] expected = { "CA", "SA" };
 
             TestHelper.SimpleTestProcedure(_syllabary, word, expected, @$"Got error in splitting word ""{word}"". This library is really messed up...");
         }
