@@ -11,7 +11,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/CarloP95/ItalianSyllabary</RepositoryUrl>
     <PackageTags>italian, syllables, dictionary</PackageTags>
-    <Version>1.0.1</Version>
+    <Version>$(PackageVersion)</Version>
   </PropertyGroup>
 
   <ItemGroup>

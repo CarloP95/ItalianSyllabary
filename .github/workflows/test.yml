@@ -10,6 +10,8 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    env:
+      PKG_VERSION: '1.0.1'
 
     steps:
     - uses: actions/checkout@v2
@@ -28,9 +30,9 @@ jobs:
     - name: Test
       run: dotnet test --verbosity normal ./ItalianSyllabary/ItalianSyllabary.sln
     - name: Create package
-      run: dotnet pack --configuration Release ./ItalianSyllabary/ItalianSyllabary/ItalianSyllabary.csproj
+      run: dotnet pack -p:PackageVersion=$PKG_VERSION --configuration Release -p ./ItalianSyllabary/ItalianSyllabary/ItalianSyllabary.csproj
     - name: Publish package
       env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }} 
-      run: dotnet nuget push --api-key $NUGET_API_KEY /home/runner/work/ItalianSyllabary/ItalianSyllabary/ItalianSyllabary/ItalianSyllabary/bin/Release/ItalianSyllabary.1.0.0.nupkg --source https://api.nuget.org/v3/index.json
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push --api-key $NUGET_API_KEY /home/runner/work/ItalianSyllabary/ItalianSyllabary/ItalianSyllabary/ItalianSyllabary/bin/Release/ItalianSyllabary.$PKG_VERSION.nupkg --source https://api.nuget.org/v3/index.json
       
