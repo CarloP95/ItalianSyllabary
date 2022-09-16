@@ -17,6 +17,8 @@ Add ItalianSyllabary in the latest version of your .NET 6.0 application from the
 dotnet add package ItalianSyllabary --version 1.0.3
 ```
 ### Usage
+[See on DotNetFiddle](https://dotnetfiddle.net/59CXHr)
+
 ```csharp
 // Manual version with known issues
 var syllabary = new ItalianSyllabary();
